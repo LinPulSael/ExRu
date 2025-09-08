@@ -1,23 +1,45 @@
-import logo from './logo.svg';
 import './App.css';
+import {useState, useEffect} from 'react';
 
 function App() {
+    const [now, setNow] = useState(new Date());
+
+    useEffect(() => {
+      const timer = setInterval(() => {
+        setNow(new Date());
+      }, 1000);
+    
+      return () => clearInterval(timer);
+  },[]);
+    
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const day = today.getDate();
+  
+  const hours = today.getHours();
+  const minutes = today.getMinutes();
+  const seconds = today.getSeconds();
+
+  const formatNumber = (num) => (num <10 ? `0${num}` : num);
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h2> 근력과 유산소 두 마리 토끼 잡기 To-do list </h2>
+        
       </header>
+
+      <main className="ButtonBox">
+        <div className="mainBox">
+          <button className = "weightButton"> 웨이트 트레이닝 바로가기</button> 
+          <button className = "runningPlannerButton"> 러닝 주차별 계획 바로가기 </button>
+          
+        </div>
+        
+        <div className ="currentTime">
+            현재시각 : {`${year}-${formatNumber(month)}-${formatNumber(day)} ${formatNumber(hours)}:${formatNumber(minutes)}:${formatNumber(seconds)}`}
+          </div>
+          </main>
     </div>
   );
 }
