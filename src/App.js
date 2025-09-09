@@ -1,7 +1,10 @@
 import './App.css';
 import {useState, useEffect} from 'react';
+import {BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 
-function App() {
+import Weightpage from './weight';
+function Home() {
+    const navigate = useNavigate();
     const [now, setNow] = useState(new Date());
 
     useEffect(() => {
@@ -31,7 +34,7 @@ function App() {
 
       <main className="ButtonBox">
         <div className="mainBox">
-          <button className = "weightButton"> 웨이트 트레이닝 바로가기</button> 
+          <button className = "weightButton" onClick={()=> navigate('/weight')}> 웨이트 트레이닝 바로가기</button>  
           <button className = "runningPlannerButton"> 러닝 주차별 계획 바로가기 </button>
           
         </div>
@@ -42,6 +45,17 @@ function App() {
           </main>
     </div>
   );
+}
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/weight" element={<Weightpage />} />
+      </Routes>
+    </Router>
+  )
 }
 
 export default App;
