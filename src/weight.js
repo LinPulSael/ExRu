@@ -40,7 +40,7 @@ export default function Weight() {
 
     return (
         <div className="header">
-            <h2> 웨이트 트레이닝 To-do </h2>
+            <h2 className="tt"> 웨이트 트레이닝 To-do </h2>
             <form onSubmit={addTodo} className="todoForm">
                 <input type="text" value={input} 
                 onChange={(e) => setInput(e.target.value)}
