@@ -3,10 +3,13 @@ body
     height: 100vh;
     margin: 0;
     background: linear-gradient(
-        135deg,           
-    #0f2027, #203a43, #2c5364,#7f00ff, );
+        120deg,           
+    #1a6a2c, #3b8d99, #2c5364,#9f5fff );
     background-size: 400% 400%; 
-    animation: aurora 15s ease infinite;
+    animation: aurora 8s ease infinite;
+    display : flex;
+    justify-content : center;
+    align-items:center;
 }
 
 @keyframes aurora {
@@ -18,4 +21,62 @@ body
 .header 
 {
     padding:20px;
+    width:350px; min-height:400px; max-height:650px;
+    overflow:scroll;
+    background: rgba(255,255,255,0.1);
+    border-radius : 10px;
+    box-shadow : 0 0 15px rgba(0,0,0,0.3);
+}
+
+.todoForm
+{
+    display:flex;
+    gap: 10px;
+    align-items:center;
+    justify-content:center;
+}
+
+.tt
+{
+    text-align:center;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.todoInput
+{
+    flex:1; padding:5px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    border:none; font-size:large;
+}
+
+.addButton, .deleteButton
+{
+    border:none; border-radius:50px;
+    font-size:medium; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    Background : rgba(255,255,255,0.3);
+}
+
+.todoItem 
+{
+    display: flex;
+    align-items: center;
+    margin-bottom:10px; margin-left:-50px;
+    font-size:large;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+}
+
+.todoItem.done {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+
+.todoItem span {
+  margin-left: 8px;
+  flex: 1;
+  cursor: pointer;
+}
+
+.todoItem:hover {
+    background : black; color:white;
 }
