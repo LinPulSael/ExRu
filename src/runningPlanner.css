@@ -1,0 +1,19 @@
+body 
+{
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(
+        120deg,           
+    #1a6a2c, #3b8d99, #2c5364,#9f5fff );
+    background-size: 400% 400%; 
+    animation: aurora 8s ease infinite;
+    display : flex;
+    justify-content : center;
+    align-items:center;
+}
+
+@keyframes aurora {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
