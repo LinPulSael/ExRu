@@ -17,3 +17,13 @@ body
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
+
+.has-plan {
+  background-color:black !important; color:white;
+}
+
+.mainContainer {
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+}
