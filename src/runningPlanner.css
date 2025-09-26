@@ -27,3 +27,69 @@ body
   flex-direction:column;
   gap:20px;
 }
+
+.weeklyTrainingInput {
+  width:500px;
+  height:30px;
+  border:none;
+}
+.weeklyTrainingSubmit {
+  border:none;
+  height:30px;
+  margin-left:10px;
+  opacity:0.7;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+/* 리액트 캘린더 커스텀 */
+
+.react-calendar {
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.5;
+  text-align:center;
+}
+.react-calendar__navigation__label {
+  border-radius : 20%;
+  border : none;  
+  background:greenyellow;
+  row-gap : 50px;
+  justify-content : space-between;
+}
+
+.react-calendar__tile {
+      border : none;
+      max-width:120px; height:40px;
+      opacity:0.9;
+      background: white;
+      justify-content : space-between;
+}
+
+.react-calendar__tile:hover {
+  opacity:1;
+  background : greenyellow; 
+  transform:scale(1.05);
+}
+
+.react-calendar__month-view__weekdays__weekday:nth-child(1) {
+  color: #fa5252;
+}
+
+.react-calendar__month-view__weekdays__weekday:nth-child(7) {
+  color: #339af0;
+}
+
+.react-calendar__month-view__weekdays__weekday{
+  text-decoration:none;
+}
+
+.button.react-calendar__navigation {
+  background: greenyellow;
+}
