@@ -8,10 +8,12 @@ import './runningPlanner.css';
 export default function RunningPlanner() {
     const [selectedWeek, setSelectedWeek] = useState(null);
     const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth()+1);
+    const [selectedDate, setSelectedDate] = useState(null);
     const [weeklyPlans, setWeeklyPlans] = useState({});
     const [dailyPlans, setDailyPlans] = useState({});
     const [newWeeklyPlan, setNewWeeklyPlan] = useState("");
     const [newDailyPlan, setNewDailyPlan] = useState("");
+    const [showWeeklyInput, setShowWeeklyInput] = useState(false);
     //const [plans, setPlans] = useState({});
 
     /* 기존 1월부터 12월까지의 주차 계산하던 함수 공부를 위해 남겨놓기
@@ -27,8 +29,10 @@ export default function RunningPlanner() {
     } 
 
     const handleClickDay = (date) => {
+        setSelectedDate(date);
         setSelectedWeek(getWeekNumber(date));
         setSelectedMonth(date.getMonth() + 1);
+        setShowWeeklyInput(true);
     };
 
     const addWeeklyPlan =() => {
@@ -42,8 +46,9 @@ export default function RunningPlanner() {
     };
 
     const addDailyPlan = (date) => {
-        const key = date.toDateString();
+        
         if(!newDailyPlan) return;
+        const key = date.toDateString();
         setDailyPlans((prev) => ({
             ...prev,
             [key] : [...(prev[key] || []), newDailyPlan],
@@ -56,18 +61,36 @@ export default function RunningPlanner() {
         return dailyPlans[key] ? "has-plan" : null;
     };
 
+    const handleKeyDown = (e) => {
+        if(e.key=="Enter") {
+            addWeeklyPlan();
+            addDailyPlan();
+        }
+    }
+
     return (
        // header 컴포넌트를 따로 만들어 렌더링 예정
+       /* locale 은 언어설정 , calendarType 은 시작 요일설정 */
        
        <div className="mainContainer">
-            <div className="weeklyPlanForm">
-                <input value={newWeeklyPlan} 
-                onChange={(e) => setNewWeeklyPlan(e.target.value)}
-                placeholder = "이번 주 훈련 계획 입력" />
-                <button onClick={addWeeklyPlan}> 추가 </button>
-            </div>
+            {showWeeklyInput && (
+                <div className="weeklyPlanForm">
+                    <h3> {selectedMonth} 월 {selectedWeek} 주차 러닝계획 </h3>
+                    <input
+                        value={newWeeklyPlan}
+                        onChange={(e) => setNewWeeklyPlan(e.target.value)}
+                        placeholder={`${selectedMonth}월 ${selectedWeek}주차 훈련계획 입력`}
+                        onKeyDown={(e) => { if (e.key === "Enter") 
+                            e.preventDefault();
+                            addWeeklyPlan(); }}
+                    />
+                    <button onClick={addWeeklyPlan}>추가</button>
+                </div>
+            )}
+                
             <div className="weeklyPlanList">
-                <h3> {selectedMonth} 월 {selectedWeek} 주차 러닝계획 </h3>
+                
+                
                 <ul>
                     {(weeklyPlans[`${selectedMonth}-${selectedWeek}`] || []). map((plan,idx) =>(
                         <li key = {idx}> {plan} </li>
@@ -75,17 +98,24 @@ export default function RunningPlanner() {
                     )}
                 </ul>
             </div>
+                
+                <Calendar onClickDay={handleClickDay} tileClassName={tileClassName} 
+                locale="ko-KR" calendarType="gregory"   /> 
+                
 
-                <Calendar onClickDay={handleClickDay} tileClassName={tileClassName} />
-
-                {selectedWeek && selectedMonth && (
-                    <div className="dailyPlanForm">
-                    <input value={newDailyPlan}
-                    onChange={(e) => setNewDailyPlan(e.target.value)}
-                    placeholder="오늘 훈련 입력" />
-                    <button onClick={() => addDailyPlan(new Date())}>추가</button>
-                    </div>
-                 )}
+                {selectedDate && (
+                <div className="dailyPlanForm">
+                    <input
+                        value={newDailyPlan}
+                        onChange={(e) => setNewDailyPlan(e.target.value)}
+                        placeholder="오늘 훈련 입력"
+                        onKeyDown={(e) => { if (e.key === "Enter") 
+                            e.preventDefault();
+                            addDailyPlan(selectedDate); }}
+                    />
+                    <button onClick={() => addDailyPlan(selectedDate)}>추가</button>
+                </div>
+            )}
                  </div>
                 
     );
