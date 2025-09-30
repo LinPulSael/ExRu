@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Calendar from 'react-calendar';
 
 import './runningPlanner.css';
@@ -6,11 +6,11 @@ import './runningPlanner.css';
 // npm install react-calendar
 
 export default function RunningPlanner() {
-    const [selectedWeek, setSelectedWeek] = useState(null);
+    const [selectedWeek, setSelectedWeek] = useState(null); 
     const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth()+1);
-    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(null); //날짜 세기
     const [weeklyPlans, setWeeklyPlans] = useState({});
-    const [dailyPlans, setDailyPlans] = useState({});
+    const [dailyPlans, setDailyPlans] = useState({}); 
     const [newWeeklyPlan, setNewWeeklyPlan] = useState("");
     const [newDailyPlan, setNewDailyPlan] = useState("");
     const [showWeeklyInput, setShowWeeklyInput] = useState(false);
@@ -29,10 +29,14 @@ export default function RunningPlanner() {
     } 
 
     const handleClickDay = (date) => {
+        const week = getWeekNumber(date);
+        const month = date.getMonth() + 1;
         setSelectedDate(date);
-        setSelectedWeek(getWeekNumber(date));
-        setSelectedMonth(date.getMonth() + 1);
-        setShowWeeklyInput(true);
+        setSelectedWeek(week);
+        setSelectedMonth(month);
+        
+        const key = `${month}-${week}`;
+        setShowWeeklyInput(!weeklyPlans[key]);
     };
 
     const addWeeklyPlan =() => {
@@ -61,62 +65,74 @@ export default function RunningPlanner() {
         return dailyPlans[key] ? "has-plan" : null;
     };
 
-    const handleKeyDown = (e) => {
-        if(e.key=="Enter") {
-            addWeeklyPlan();
-            addDailyPlan();
+    useEffect(() => {
+        const key = `${selectedMonth}-${selectedWeek}`;
+        if(weeklyPlans[key] ?.length > 0) {
+            setShowWeeklyInput(false);
         }
-    }
+
+    }, [weeklyPlans, selectedMonth, selectedWeek]);
 
     return (
        // header 컴포넌트를 따로 만들어 렌더링 예정
        /* locale 은 언어설정 , calendarType 은 시작 요일설정 */
        
        <div className="mainContainer">
-            {showWeeklyInput && (
+            <h1 className="tt"> 러닝 주차별 계획 세우기 </h1>
+            {selectedWeek && (
                 <div className="weeklyPlanForm">
-                    <h3> {selectedMonth} 월 {selectedWeek} 주차 러닝계획 </h3>
-                    <input
-                        value={newWeeklyPlan}
+                    <h3 className="monthWeekPlan">
+                        {selectedMonth} 월 {selectedWeek} 주차 훈련 계획
+                    </h3>
+                    {showWeeklyInput && (
+                        <form onSubmit={(e)=>{
+                        e.preventDefault();
+                        addWeeklyPlan();}} 
+                        className="weeklyPlanForm">
+                        <input value={newWeeklyPlan}
                         onChange={(e) => setNewWeeklyPlan(e.target.value)}
                         placeholder={`${selectedMonth}월 ${selectedWeek}주차 훈련계획 입력`}
-                        onKeyDown={(e) => { if (e.key === "Enter") 
-                            e.preventDefault();
-                            addWeeklyPlan(); }}
-                    />
-                    <button onClick={addWeeklyPlan}>추가</button>
-                </div>
-            )}
+                        className="weeklyTrainingInput"
+                        />
+                        <button type="submit" className="weeklyTrainingSubmit">추가</button>
+                        </form>
+                        )}
                 
-            <div className="weeklyPlanList">
-                
-                
-                <ul>
+                        
+                <ul className="weeklyPlanList">
                     {(weeklyPlans[`${selectedMonth}-${selectedWeek}`] || []). map((plan,idx) =>(
                         <li key = {idx}> {plan} </li>
-                    )
-                    )}
+                    ))}
                 </ul>
             </div>
+            )}
                 
                 <Calendar onClickDay={handleClickDay} tileClassName={tileClassName} 
                 locale="ko-KR" calendarType="gregory"   /> 
-                
-
-                {selectedDate && (
+            {selectedDate && (
                 <div className="dailyPlanForm">
-                    <input
-                        value={newDailyPlan}
-                        onChange={(e) => setNewDailyPlan(e.target.value)}
-                        placeholder="오늘 훈련 입력"
-                        onKeyDown={(e) => { if (e.key === "Enter") 
+                    <input value={newDailyPlan}
+                    onChange={(e) => setNewDailyPlan(e.target.value)}
+                    placeholder="오늘 훈련 입력"
+                    onKeyUp={(e) => {
+                        if (e.key === "Enter") {
                             e.preventDefault();
-                            addDailyPlan(selectedDate); }}
+                            addDailyPlan(selectedDate);
+                            }
+                        }}
+                    className="dailyPlanInput"
                     />
-                    <button onClick={() => addDailyPlan(selectedDate)}>추가</button>
-                </div>
-            )}
-                 </div>
-                
-    );
+                <button onClick={() => addDailyPlan(selectedDate)}
+                className="dailyPlanButton">추가</button>
+
+                <ul className="dailyPlanList">
+                    {(dailyPlans[selectedDate.toDateString()] || []).map((plan, idx) => (
+                        <li key={idx}>{plan}</li>
+                        )
+                    )}
+                </ul>
+        </div>
+      )}
+    </div>
+  );
 }

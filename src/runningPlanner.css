@@ -1,6 +1,6 @@
 body 
 {
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
     background: linear-gradient(
         120deg,           
@@ -10,6 +10,8 @@ body
     display : flex;
     justify-content : center;
     align-items:center;
+    overflow-y:auto;
+    align-items: flex-start; 
 }
 
 @keyframes aurora {
@@ -17,7 +19,10 @@ body
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
-
+.tt {
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; display:flex;
+  justify-content:center; font-weight:bold;
+}
 .has-plan {
   background-color:black !important; color:white;
 }
@@ -26,19 +31,52 @@ body
   display:flex;
   flex-direction:column;
   gap:20px;
+  align-items:center;
 }
 
-.weeklyTrainingInput {
-  width:500px;
-  height:30px;
-  border:none;
+.weeklyPlanForm, .dailyPlanForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  gap: 10px;
 }
-.weeklyTrainingSubmit {
-  border:none;
+
+.weeklyTrainingInput, .dailyPlanInput {
+  width:570px;
   height:30px;
+  border:none;
+  
+}
+.weeklyTrainingSubmit, .dailyPlanButton {
+  border:none; border-radius:50%;
+  width: 50px;height:30px;
   margin-left:10px;
   opacity:0.7;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; 
+}
+.weeklyTrainingSubmit:hover, .dailyPlanButton:hover {
+  opacity:1;
+  cursor:pointer;
+}
+.weeklyPlanList ul, .dailyPlanList ul {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center; 
+  gap: 10px;
+}
+
+.weeklyPlanList li, .dailyPlanList li{
+  display:flex;  max-width:600px;
+  list-style:none;
+  justify-content:center;  text-align:center;
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size:25px; background-color:white; opacity:0.8;
+  padding: 10px 0;
+  border-radius: 10px;
+  margin: 5px 0;
 }
 
 /* 리액트 캘린더 커스텀 */
