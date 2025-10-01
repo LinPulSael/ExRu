@@ -21,7 +21,7 @@ body
 }
 .tt {
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; display:flex;
-  justify-content:center; font-weight:bold;
+  justify-content:center; font-weight:bold; color:white; background:rgba(0,0,0,0.3);
 }
 .has-plan {
   background-color:black !important; color:white;
@@ -76,8 +76,15 @@ body
   font-size:25px; background-color:white; opacity:0.8;
   padding: 10px 0;
   border-radius: 10px;
-  margin: 5px 0;
+  padding:15px; margin-bottom:10px;
 }
+
+.monthWeekPlan, .resultOfDay {
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  background: rgba(255,255,255,0.3); 
+}
+
+
 
 /* 리액트 캘린더 커스텀 */
 

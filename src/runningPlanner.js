@@ -31,6 +31,7 @@ export default function RunningPlanner() {
     const handleClickDay = (date) => {
         const week = getWeekNumber(date);
         const month = date.getMonth() + 1;
+        const day = date.getDate();
         setSelectedDate(date);
         setSelectedWeek(week);
         setSelectedMonth(month);
@@ -111,6 +112,7 @@ export default function RunningPlanner() {
                 locale="ko-KR" calendarType="gregory"   /> 
             {selectedDate && (
                 <div className="dailyPlanForm">
+                    <h3 className="resultOfDay">{selectedMonth} 월 {selectedDate.getDate()} 일 훈련 내용</h3>
                     <input value={newDailyPlan}
                     onChange={(e) => setNewDailyPlan(e.target.value)}
                     placeholder="오늘 훈련 입력"
